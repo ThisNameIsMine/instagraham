@@ -6,6 +6,7 @@ import {
   PlusCircleIcon,
 } from "@heroicons/react/24/outline";
 import { HomeIcon } from "@heroicons/react/24/solid";
+import { Feed } from "./Feed";
 
 export default function Header() {
   return (

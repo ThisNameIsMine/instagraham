@@ -1,5 +1,8 @@
 import React from "react";
 import { BsThreeDots } from "react-icons/bs";
+import { FaRegHeart } from "react-icons/fa";
+import { MdOutlineChatBubbleOutline } from "react-icons/md";
+import { FaRegBookmark } from "react-icons/fa6";
 
 export default function Post({ id, username, userImg, img, caption }) {
   return (
@@ -16,6 +19,16 @@ export default function Post({ id, username, userImg, img, caption }) {
       </div>
       {/* Post Image */}
       <img className="object-cover w-full" src={img} alt={caption} />
+
+      {/* Post Buttons */}
+      <div className="flex justify-between px-4 pt-4">
+        <div className="flex space-x-4">
+          <FaRegHeart className="btn" />
+          <MdOutlineChatBubbleOutline className="btn" />
+        </div>
+        <FaRegBookmark className="btn" />
+      </div>
+
       {/* Post Footer */}
       <div>
         <p className="p-5 truncate">

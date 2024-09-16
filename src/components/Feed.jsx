@@ -3,16 +3,16 @@ import Stories from "./Stories";
 import Posts from "./Posts";
 export default function Feed() {
   return (
-    <main>
-      <h1 className="h-10 text-red-900">Yo mama</h1>
-      <section>
+    <main className="grid grid-cols-1 md:grid-cols-3 md:max-w-6xl mx-auto">
+      <section className="md:col-span-2">
         {/* Stories */}
         <Stories />
         {/* Posts */}
         <Posts />
       </section>
-      <section>
+      <section className="hidden md:inline-grid md:col-span-1">
         {/* Mini profile */}
+
         {/* Suggestions */}
       </section>
     </main>

@@ -8,7 +8,7 @@ export default function Posts() {
       username: "james",
       userImg: "https://avatars.githubusercontent.com/u/24712956?v=4",
       img: "https://kpi.fei.tuke.sk/sites/www2.kpi.fei.tuke.sk/files/presentation_images/susc23-1.jpg",
-      caption: "This is a test",
+      caption: "Behold my might.",
     },
     {
       id: "2",

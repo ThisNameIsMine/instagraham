@@ -3,6 +3,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineChatBubbleOutline } from "react-icons/md";
 import { FaRegBookmark } from "react-icons/fa6";
+import { HiOutlineEmojiHappy } from "react-icons/hi";
 
 export default function Post({ id, username, userImg, img, caption }) {
   return (
@@ -36,6 +37,18 @@ export default function Post({ id, username, userImg, img, caption }) {
           {caption}
         </p>
       </div>
+      {/* Post Input Box */}
+      <form action="" className="flex items-center p-4 space-x-2">
+        <HiOutlineEmojiHappy className="h-7" />
+        <input
+          className="border-none flex-1 focus:ring-0"
+          type="text"
+          placeholder="Enter your comment"
+        />
+        <button className="text-blue-400 font-bold" type="submit">
+          Post
+        </button>
+      </form>
     </div>
   );
 }

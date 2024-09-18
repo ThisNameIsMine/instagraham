@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import {
@@ -7,8 +8,13 @@ import {
 } from "@heroicons/react/24/outline";
 import { HomeIcon } from "@heroicons/react/24/solid";
 import { Feed } from "./Feed";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
+  const { data: session } = useSession();
+  console.log(session);
+  const router = useRouter();
   return (
     <div className="shadow-sm border-b sticky top-0 bg-white">
       <div className="flex items-center justify-between max-w-6xl mx-4 xl:mx-auto p-5 bg-white z-30">
@@ -19,6 +25,7 @@ export default function Header() {
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"
             alt="Ig logo"
             fill={true}
+            onClick={() => router.push("/")}
           />
         </div>
         <div className="cursor-pointer h-10 w-10 relative lg:hidden">
@@ -27,6 +34,7 @@ export default function Header() {
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/800px-Instagram_logo_2022.svg.png"
             alt="Ig logo"
             fill={true}
+            onClick={() => router.push("/")}
           />
         </div>
         {/* Middle */}
@@ -43,12 +51,24 @@ export default function Header() {
         {/* Right */}
         <div className=" flex space-x-4 items-center ">
           <HomeIcon className="hidden md:inline-flex h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out " />
-          <PlusCircleIcon className="h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out  " />
-          <img
-            src="https://kpi.fei.tuke.sk/sites/www2.kpi.fei.tuke.sk/files/presentation_images/susc23-1.jpg"
-            alt="Ja"
-            className="h-10 rounded-full cursor-pointer hover:scale-125 transition-transform duration-200 ease-out"
-          />
+          {session ? (
+            <>
+              <PlusCircleIcon className="h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out  " />
+              <img
+                onClick={signOut}
+                src={session.user.image}
+                alt="Ja"
+                className="h-10 rounded-full cursor-pointer hover:scale-125 transition-transform duration-200 ease-out"
+              />
+            </>
+          ) : (
+            <button
+              className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600"
+              onClick={signIn}
+            >
+              Sign in
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -12,8 +12,17 @@ export const authOptions = {
   ],
   // A database is optional, but required to persist accounts in a database
   pages: {
-    signin: "/auth/signin",
+    signIn: "/auth/login",
   },
+  callbacks:{
+    async session({session,token,user}){
+      session.user.username = session.user.name.split(" ").join("").toLocaleLowerCase();
+      session.user.uid = token.sub;
+      
+      return session;
+  },
+}
+
 };export async function GET( req,res ) {
   return NextAuth(req,res,authOptions)
   }

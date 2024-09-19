@@ -5,9 +5,26 @@ import { MdOutlineChatBubbleOutline } from "react-icons/md";
 import { FaRegBookmark } from "react-icons/fa6";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebase";
+import { serverTimestamp } from "firebase/firestore";
 
 export default function Post({ id, username, userImg, img, caption }) {
   const { data: session } = useSession();
+  const [comment, setComment] = useState("");
+
+  async function sendComment(event) {
+    event.preventDefault();
+    const commentToSend = comment;
+    setComment("");
+    await addDoc(collection(db, "posts", id, "comments"), {
+      comment: commentToSend,
+      username: session.user.username,
+      userImg: session.user.image,
+      timestamp: serverTimestamp(),
+    });
+  }
 
   return (
     <div className="bg-white my-7 border rounded-md">
@@ -50,8 +67,15 @@ export default function Post({ id, username, userImg, img, caption }) {
             className="border-none flex-1 focus:ring-0"
             type="text"
             placeholder="Enter your comment"
+            value={comment}
+            onChange={(event) => setComment(event.target.value)}
           />
-          <button className="text-blue-400 font-bold" type="submit">
+          <button
+            onClick={sendComment}
+            className="text-blue-400 font-bold disabled:text-blue-200"
+            type="submit"
+            disabled={!comment.trim()}
+          >
             Post
           </button>
         </form>

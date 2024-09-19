@@ -11,10 +11,11 @@ export default function Feed() {
 
   return (
     <main
+      /* Changed grid to make it irelevant - looks better but keeping it for future reference */
       className={`grid ${
         session
           ? "grid-cols-1 md:grid-cols-3 md:max-w-6xl mx-auto"
-          : "grid-cols-1 md:grid-cols-2 md:max-w-3xl mx-auto"
+          : "grid-cols-1 md:grid-cols-3 md:max-w-6xl mx-auto"
       } `}
     >
       <section className="md:col-span-2">

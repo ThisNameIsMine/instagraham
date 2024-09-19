@@ -54,7 +54,10 @@ export default function Header() {
         </div>
         {/* Right */}
         <div className=" flex space-x-4 items-center ">
-          <HomeIcon className="hidden md:inline-flex h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out " />
+          <HomeIcon
+            className="hidden md:inline-flex h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out "
+            onClick={() => router.push("/")}
+          />
           {session ? (
             <>
               <PlusCircleIcon

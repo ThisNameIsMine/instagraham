@@ -15,7 +15,7 @@ export default function Posts() {
         setPosts(snapshot.docs);
       }
     );
-  });
+  }, [db]);
   return (
     <div className="">
       {posts.map((post) => (

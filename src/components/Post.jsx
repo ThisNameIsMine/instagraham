@@ -1,23 +1,33 @@
 import React from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa";
+import { HeartIcon } from "@heroicons/react/24/solid";
 import { MdOutlineChatBubbleOutline } from "react-icons/md";
 import { FaRegBookmark } from "react-icons/fa6";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { addDoc, collection, onSnapshot, or } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  onSnapshot,
+  or,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 import { serverTimestamp } from "firebase/firestore";
 import { useEffect } from "react";
 import { query } from "firebase/firestore";
-import { orderBy } from "firebase/firestore";
+import { orderBy, doc } from "firebase/firestore";
 import Moment from "react-moment";
 
 export default function Post({ id, username, userImg, img, caption }) {
   const { data: session } = useSession();
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [hasLiked, setHasLiked] = useState(false);
+  const [likes, setLikes] = useState([]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -30,6 +40,30 @@ export default function Post({ id, username, userImg, img, caption }) {
       }
     );
   }, [db]);
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "posts", id, "likes"),
+      (snapshot) => {
+        setLikes(snapshot.docs);
+      }
+    );
+  }, [db]);
+
+  useEffect(() => {
+    setHasLiked(
+      likes.findIndex((like) => like.id === session?.user.uid) !== -1
+    );
+  }, [likes]);
+
+  async function likePost() {
+    if (hasLiked) {
+      await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
+    } else {
+      await setDoc(doc(db, "posts", id, "likes", session.user.uid), {
+        username: session.user.username,
+      });
+    }
+  }
 
   async function sendComment(event) {
     event.preventDefault();
@@ -62,7 +96,12 @@ export default function Post({ id, username, userImg, img, caption }) {
       {session && (
         <div className="flex justify-between px-4 pt-4">
           <div className="flex space-x-4">
-            <FaRegHeart className="btn" />
+            {hasLiked ? (
+              <HeartIcon onClick={likePost} className="btn text-red-500" />
+            ) : (
+              <FaRegHeart onClick={likePost} className="btn" />
+            )}
+
             <MdOutlineChatBubbleOutline className="btn" />
           </div>
           <FaRegBookmark className="btn" />

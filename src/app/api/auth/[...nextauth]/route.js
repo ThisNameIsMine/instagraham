@@ -11,6 +11,7 @@ export const authOptions = {
     // ...add more providers here
   ],
   // A database is optional, but required to persist accounts in a database
+  secret:process.env.SECRET,
   pages: {
     signIn: "/auth/login",
   },
